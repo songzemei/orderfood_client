@@ -105,7 +105,7 @@
                             <div class="form-group form-inline">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default" title="新建"
-                                            onclick='location.href="/product_add.jsp"'><i class="fa fa-file-o"></i>
+                                            onclick='location.href="${pageContext.request.contextPath}/address_add.jsp"'><i class="fa fa-file-o"></i>
                                         新增
                                     </button>
                                     <button type="button" class="btn btn-default" title="刷新">
@@ -146,7 +146,7 @@
                                     <td>${address.phoneNum}</td>
                                     <td>${address.addressName}</td>
                                     <td class="text-center">
-                                        <a href="${pageContext.request.contextPath}/user/findById?id=${user.id}"
+                                        <a href="${pageContext.request.contextPath}/address/findById?id=${address.id}"
                                            class="btn bg-olive btn-xs">编辑</a>
                                     </td>
                                 </tr>
