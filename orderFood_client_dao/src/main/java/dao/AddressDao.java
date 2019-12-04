@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface AddressDao {
-    //查找所有地址
-    @Select("SELECT * FROM address WHERE id IN(SELECT addressId FROM member_address WHERE memberId=#{memberId})")
+    //根据会员id 查找所有地址
+    @Select("SELECT * FROM address WHERE memberId =#{memberId}")
     List<Address> all(String memberId);
 
     //修改地址
@@ -19,10 +19,10 @@ public interface AddressDao {
     void update(Address address);
 
     //添加地址
-    @Insert("insert into address values(#{id},#{username},#{phoneNum},#{addressName})")
+    @Insert("insert into address values(#{id},#{username},#{phoneNum},#{addressName},#{memberId})")
     void add(Address address);
 
-    //通过id查找地址
+    //通过addressid 查找地址
     @Select("select * from address where id=#{id}")
     Address findById(String id);
 }

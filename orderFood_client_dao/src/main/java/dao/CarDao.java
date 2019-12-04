@@ -17,7 +17,7 @@ public interface CarDao {
     List<Car> all(String memberId);
 
     //add
-    @Insert("insert into car values(#{id},#{productId},#{productCount},#{memberId})")
+    @Insert("insert into car values(#{id},#{productId},#{productCount},#{memberId}，#{ordersId})")
     void add(Car car);
 
     //根据productId和memberId，修改 productCount
@@ -31,5 +31,13 @@ public interface CarDao {
     //根据productId和memberId，查询 productCount
     @Select("select productCount from car where productId=#{productId} and memberId=#{memberId}")
     Integer findCountByPIdAndMId(Car car);
+
+    //清空购物车
+    @Delete("delete from car")
+    void empty();
+
+    //根据ordersId查询
+    @Select("select * from car where ordersId=#{ordersId}")
+    List<Car> findByOrdersId(String ordersId);
 
 }

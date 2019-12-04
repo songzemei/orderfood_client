@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import service.AddressService;
 
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/address")
@@ -46,7 +45,7 @@ public class AddressController {
     public ModelAndView findById(String id) {
         Address address = addressService.findById(id);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.getModelMap().addAttribute("address",address);
+        modelAndView.getModelMap().addAttribute("address", address);
         modelAndView.setViewName("address_update");
         return modelAndView;
     }

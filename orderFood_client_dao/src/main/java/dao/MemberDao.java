@@ -12,7 +12,8 @@ public interface MemberDao {
     @Select("select * from member where username=#{username}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
-            @Result(property = "roles", column = "id", many = @Many(select = "dao.RoleDao.findByMemberId"))
+            @Result(property = "roles", column = "id", many = @Many(select = "dao.RoleDao.findByMemberId")),
+            @Result(property = "orders", column = "id", many = @Many(select = "dao.OrdersDao.findByMemberId"))
     })
     Member findByUsername(String username);
 

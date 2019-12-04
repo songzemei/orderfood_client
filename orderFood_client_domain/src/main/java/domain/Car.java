@@ -1,11 +1,20 @@
 package domain;
 
 public class Car {
-    private String id;
-    private String productId;
-    private int productCount;
-    private String memberId;
-    private Product product;
+    private String id;//uuid
+    private String productId;//产品id
+    private int productCount;//产品数量
+    private String memberId;//会员id
+    private Product product;//产品
+    private String ordersId;//订单id
+
+    public String getOrdersId() {
+        return ordersId;
+    }
+
+    public void setOrdersId(String ordersId) {
+        this.ordersId = ordersId;
+    }
 
     public String getId() {
         return id;

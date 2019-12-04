@@ -16,6 +16,24 @@ public class Member {
     private int status;//状态码
     private String statusStr;//状态码字符串 0禁用/1可用
     private List<Role> roles;//会员角色
+    private List<Orders> orders;
+    private List<Address> addresses;
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public List<Orders> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
+    }
 
     public List<Role> getRoles() {
         return roles;

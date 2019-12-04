@@ -3,7 +3,6 @@ package service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import dao.AddressDao;
-import dao.MemberAddressDao;
 import dao.MemberDao;
 import domain.Address;
 import domain.Member;
@@ -20,8 +19,6 @@ import java.util.UUID;
 public class AddressService {
     @Autowired
     private AddressDao addressDao;
-    @Autowired
-    private MemberAddressDao memberAddressDao;
     @Autowired
     private MemberDao memberDao;
 
@@ -45,14 +42,14 @@ public class AddressService {
 
     //添加地址
     public void add(Address address) {
-        address.setId(UUID.randomUUID().toString());
-        addressDao.add(address);
-
         SecurityContext context = SecurityContextHolder.getContext();// 获取到Security容器
         User user = (User) context.getAuthentication().getPrincipal();// 获取Security存的User对象
         String username = user.getUsername();// 获取到访问人
         Member member = memberDao.findByUsername(username);
-        memberAddressDao.add(member.getId(), address.getId());
+
+        address.setId(UUID.randomUUID().toString());
+        address.setMemberId(member.getId());
+        addressDao.add(address);
     }
 
     //通过id查找地址

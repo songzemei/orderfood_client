@@ -22,7 +22,7 @@
             <%-- 系统管理 --%>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-cogs"></i><span>账户管理</span>
+                    <i class="fa fa-cogs"></i><span>我的账户</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -30,7 +30,7 @@
                 <ul class="treeview-menu">
                     <li id="user-setting">
                         <a href="${pageContext.request.contextPath}/address/all">
-                            <i class="fa fa-circle-o"></i>地址管理
+                            <i class="fa fa-circle-o"></i>我的地址
                         </a>
                     </li>
                 </ul>
@@ -45,18 +45,13 @@
                 </a>
                 <ul class="treeview-menu">
                     <li id="product-manage">
-                        <a href="${pageContext.request.contextPath}/product/findAll">
-                            <i class="fa fa-circle-o"></i>产品管理
+                        <a href="${pageContext.request.contextPath}/product/all">
+                            <i class="fa fa-circle-o"></i>查看菜单
                         </a>
                     </li>
-                    <li id="order-cancel">
-                        <a href="${pageContext.request.contextPath}/orders/findAll">
-                            <i class="fa fa-circle-o"></i>订单管理
-                        </a>
-                    </li>
-                    <li id="member-cancel">
-                        <a href="${pageContext.request.contextPath}/member/findAll">
-                            <i class="fa fa-circle-o"></i>会员管理
+                    <li id="car-manage">
+                        <a href="${pageContext.request.contextPath}/car/all">
+                            <i class="fa fa-circle-o"></i>查看购物车
                         </a>
                     </li>
                 </ul>

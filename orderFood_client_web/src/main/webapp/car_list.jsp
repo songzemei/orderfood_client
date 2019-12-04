@@ -150,11 +150,12 @@
                                                class="btn bg-olive btn-xs">+</a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td colspan="6"></td>
-                                        <td></td>
-                                    </tr>
                                 </c:forEach>
+                                <tr>
+                                    <td class="text-center" colspan="6">总计：${totalPrice}元</td>
+                                    <td class="text-center"><a href="${pageContext.request.contextPath}/pay.jsp?totalPrice=${totalPrice}"
+                                           class="btn bg-olive btn-xs">付款</a></td>
+                                </tr>
                                 </tbody>
                                 <!--
                             <tfoot>

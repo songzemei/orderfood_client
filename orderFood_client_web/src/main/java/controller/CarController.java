@@ -18,15 +18,19 @@ public class CarController {
     @Autowired
     private CarService carService;
 
+    //分页查询购物车 求购物车中产品总价
     @RequestMapping("/all")
     public ModelAndView all(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "5") int pageSize) {
         PageInfo<Car> cars = carService.all(pageNum, pageSize);
+        Double totalPrice = carService.totalPrice();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.getModelMap().addAttribute("cars", cars);
+        modelAndView.getModelMap().addAttribute("totalPrice", totalPrice);
         modelAndView.setViewName("car_list");
         return modelAndView;
     }
 
+    //add购物车
     @RequestMapping("/add")
     public String add(HttpServletRequest request,String productId) {
         carService.add(productId);
@@ -34,6 +38,7 @@ public class CarController {
         return "redirect:"+referer;
     }
 
+    //del购物车
     @RequestMapping("/del")
     public String del(HttpServletRequest request,String productId) {
         carService.del(productId);

@@ -5,6 +5,15 @@ public class Address {
     private String username;//收货人
     private String phoneNum;//收货人电话
     private String addressName;//地址名
+    private String memberId;//会员id
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
 
     public String getId() {
         return id;

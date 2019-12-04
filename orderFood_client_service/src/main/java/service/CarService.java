@@ -43,6 +43,7 @@ public class CarService {
         Member member = memberDao.findByUsername(username);
         car.setProductId(productId);
         car.setMemberId(member.getId());
+        car.setOrdersId(null);
         Integer count = carDao.findCountByPIdAndMId(car);
         if (count == null) {
             car.setId(UUID.randomUUID().toString());
@@ -63,7 +64,7 @@ public class CarService {
         car.setProductId(productId);
         car.setMemberId(member.getId());
         Integer count = carDao.findCountByPIdAndMId(car);
-        if (count != null){
+        if (count != null) {
             if (count == 1) {
                 carDao.del(car);
             } else if (count > 1) {
@@ -71,5 +72,29 @@ public class CarService {
                 carDao.updateCount(car);
             }
         }
+    }
+
+    //求购物车中产品总价
+    public double totalPrice() {
+        SecurityContext context = SecurityContextHolder.getContext();// 获取到Security容器
+        User user = (User) context.getAuthentication().getPrincipal();// 获取Security存的User对象
+        String username = user.getUsername();// 获取到访问人
+        Member member = memberDao.findByUsername(username);
+        List<Car> cars = carDao.all(member.getId());
+        double totalPrice = 0.0;
+        for (Car car : cars) {
+            totalPrice += car.getProduct().getProductPrice() * car.getProductCount();
+        }
+        return totalPrice;
+    }
+
+    //清空购物车
+    public void empty() {
+        carDao.empty();
+    }
+
+    //支付
+    public void pay() {
+
     }
 }
