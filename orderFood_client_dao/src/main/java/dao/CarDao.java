@@ -34,6 +34,10 @@ public interface CarDao {
 
     //根据ordersId查询
     @Select("select * from car where ordersId=#{ordersId}")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(property = "product", column = "productId", one = @One(select = "dao.ProductDao.findById"))
+    })
     List<Car> findByOrdersId(String ordersId);
 
     //会员和购物车的产品：一对多 ，购物车付款后 根据会员id 更改购物车状态为1：已支付

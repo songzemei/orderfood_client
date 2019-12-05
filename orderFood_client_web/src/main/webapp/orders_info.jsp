@@ -89,97 +89,82 @@
         </section>
         <!-- 内容头部 /-->
         <!-- 正文区域 -->
-        <section class="content"> <!--订单信息-->
+        <section class="content">
+
+            <!--订单信息-->
             <div class="panel panel-default">
                 <div class="panel-heading">订单信息</div>
-                <div class="row data-type">
-                    <table
-                            class="table table-bordered table-striped table-hover dataTable">
-                        <thead>
-                        <tr>
-                            <th class="">菜品图片</th>
-                            <th class="">菜品名</th>
-                            <th class="">菜品价格</th>
-                            <th class="">订餐数量</th>
-                            <th class="">金额</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="${orders.cars}" items="${car}">
-
-                            <tr>
-                                <td>${traveller.travellerTypeStr}</td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!--订单信息/--> <!--游客信息-->
-            <div class="panel panel-default">
-                <div class="panel-heading">游客信息</div>
                 <!--数据列表-->
-                <table id="dataList"
-                       class="table table-bordered table-striped table-hover dataTable">
+                <table
+                        class="table table-bordered table-striped table-hover dataTable">
                     <thead>
                     <tr>
-                        <th class="">人群</th>
-                        <th class="">姓名</th>
-                        <th class="">性别</th>
-                        <th class="">手机号码</th>
-                        <th class="">证件类型</th>
-                        <th class="">证件号码</th>
+                        <th class="">菜品图片</th>
+                        <th class="">菜品名</th>
+                        <th class="">菜品价格</th>
+                        <th class="">订餐数量</th>
+                        <th class="">金额</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="traveller" items="${orders.travellers}">
 
+                    <c:forEach items="${orders.cars}" var="car">
                         <tr>
-                            <td>${traveller.travellerTypeStr}</td>
-                            <td>${traveller.name }</td>
-                            <td>${traveller.sex }</td>
-                            <td>${traveller.phoneNum }</td>
-                            <td>${traveller.credentialsTypeStr}</td>
-                            <td>${traveller.credentialsNum }</td>
+                            <td>${car.product.productPhoto}</td>
+                            <td>${car.product.productName}</td>
+                            <td>${car.product.productPrice}</td>
+                            <td>${car.productCount}</td>
+                            <td>${car.productCount*car.product.productPrice}</td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <!--数据列表/-->
             </div>
-            <!--游客信息/--> <!--联系人信息-->
+
+            <!--订单备注-->
             <div class="panel panel-default">
-                <div class="panel-heading">联系人信息</div>
+                <div class="panel-heading">订单备注</div>
+                <div class="row data-type">
+                    <div class="col-md-2 title">客户备注</div>
+                    <div class="col-md-4 data text">${orders.orderDesc}</div>
+                </div>
+            </div>
+
+
+            <!--订单信息/--> <!--地址信息-->
+            <div class="panel panel-default">
+                <div class="panel-heading">地址信息</div>
+                <table
+                        class="table table-bordered table-striped table-hover dataTable">
+                    <thead>
+                    <tr>
+                        <th class="">收货人姓名</th>
+                        <th class="">收货人手机号</th>
+                        <th class="">收货人地址</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>${orders.address.username}</td>
+                        <td>${orders.address.phoneNum}</td>
+                        <td>${orders.address.addressName}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--费用信息-->
+            <div class="panel panel-default">
+                <div class="panel-heading">费用信息</div>
                 <div class="row data-type">
 
-                    <div class="col-md-2 title">会员</div>
-                    <div class="col-md-4 data text">${orders.member.nickname }</div>
+                    <div class="col-md-2 title">支付方式</div>
+                    <div class="col-md-4 data text">在线支付-${orders.payTypeStr}</div>
 
-                    <div class="col-md-2 title">联系人</div>
-                    <div class="col-md-4 data text">${orders.member.name}</div>
-
-                    <div class="col-md-2 title">手机号</div>
-                    <div class="col-md-4 data text">${orders.member.phoneNum}</div>
-
-                    <div class="col-md-2 title">邮箱</div>
-                    <div class="col-md-4 data text">${orders.member.email}</div>
-
+                    <div class="col-md-2 title">金额</div>
+                    <div class="col-md-4 data text">￥${orders.totalPrice}</div>
                 </div>
             </div>
-            <!--联系人信息/--> <!--费用信息--> <c:if test="${orders.orderStatus==1}">
-                <div class="panel panel-default">
-                    <div class="panel-heading">费用信息</div>
-                    <div class="row data-type">
-
-                        <div class="col-md-2 title">支付方式</div>
-                        <div class="col-md-4 data text">在线支付-${orders.payTypeStr}</div>
-
-                        <div class="col-md-2 title">金额</div>
-                        <div class="col-md-4 data text">￥${orders.product.productPrice}</div>
-
-                    </div>
-                </div>
-            </c:if> <!--费用信息/--> <!--工具栏-->
+            <!--工具栏-->
             <div class="box-tools text-center">
 
                 <button type="button" class="btn bg-default"

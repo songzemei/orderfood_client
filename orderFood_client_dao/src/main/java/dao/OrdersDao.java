@@ -14,7 +14,7 @@ public interface OrdersDao {
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "cars", column = "id", many = @Many(select = "dao.CarDao.findByOrdersId")),
-            @Result(property = "address", column = "addressId", many = @Many(select = "dao.AddressDao.findById"))
+            @Result(property = "address", column = "addressId", one = @One(select = "dao.AddressDao.findById"))
     })
     List<Orders> findByMemberId(String memberId);
 
@@ -28,5 +28,10 @@ public interface OrdersDao {
 
     //根据会员id和订单id查找对应的订单
     @Select("select * from orders where memberId=#{memberId} and id=#{ordersId}")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(property = "cars", column = "id", many = @Many(select = "dao.CarDao.findByOrdersId")),
+            @Result(property = "address", column = "addressId", one = @One(select = "dao.AddressDao.findById"))
+    })
     Orders info(@Param("memberId")String memberId,@Param("ordersId")String ordersId);
 }

@@ -159,7 +159,7 @@
                                     <td class="text-center">${orders.orderStatusStr}</td>
                                     <td class="text-center">
                                         <button type="button" class="btn bg-olive btn-xs"
-                                                onclick="location.href='${pageContext.request.contextPath}/orders/info?id=${orders.id}'">
+                                                onclick="location.href='${pageContext.request.contextPath}/orders/info?ordersId=${orders.id}'">
                                             详情
                                         </button>
                                     </td>
