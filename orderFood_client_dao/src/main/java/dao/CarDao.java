@@ -29,7 +29,7 @@ public interface CarDao {
     void del(Car car);
 
     //根据productId和memberId，查询 productCount
-    @Select("select productCount from car where productId=#{productId} and memberId=#{memberId}")
+    @Select("select productCount from car where productId=#{productId} and memberId=#{memberId} and carStatus=0")
     Integer findCountByPIdAndMId(Car car);
 
     //根据ordersId查询
