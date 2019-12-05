@@ -15,7 +15,7 @@ public class OrdersController {
     @Autowired
     private OrdersService ordersService;
 
-    //根据会员id查找对应的订单 再根据订单id查找订单里的产品
+    //根据会员id查找对应的所有订单 分页
     @RequestMapping("/all")
     public ModelAndView findByMemberId(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "5") int pageSize) {
         PageInfo<Orders> allOrders = ordersService.findByMemberId(pageNum, pageSize);
@@ -25,9 +25,13 @@ public class OrdersController {
         return modelAndView;
     }
 
-    //add订单
-    @RequestMapping("/add")
-    public void add(Orders orders) {
-        ordersService.add(orders);
+    //根据会员id和订单id查找对应的订单
+    @RequestMapping("/info")
+    public ModelAndView info(String ordersId) {
+        Orders orders = ordersService.info(ordersId);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.getModelMap().addAttribute("orders", orders);
+        modelAndView.setViewName("orders_info");
+        return modelAndView;
     }
 }

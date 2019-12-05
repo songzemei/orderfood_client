@@ -152,9 +152,21 @@
                                     </tr>
                                 </c:forEach>
                                 <tr>
+                                    <c:if test="${totalPrice!=0}">
                                     <td class="text-center" colspan="6">总计：${totalPrice}元</td>
-                                    <td class="text-center"><a href="${pageContext.request.contextPath}/pay.jsp?totalPrice=${totalPrice}"
-                                           class="btn bg-olive btn-xs">付款</a></td>
+                                    <td class="text-center">
+                                        <a href="${pageContext.request.contextPath}/member/pay_list?totalPrice=${totalPrice}"
+                                           class="btn bg-olive btn-xs">付款</a>
+                                    </td>
+                                    </c:if>
+
+                                    <c:if test="${totalPrice==0}">
+                                        <td class="text-center" colspan="7">
+                                            购物车为空，
+                                            <a href="${pageContext.request.contextPath}/product/all"
+                                               class="btn bg-olive btn-xs">去点餐吧</a>
+                                        </td>
+                                    </c:if>
                                 </tr>
                                 </tbody>
                                 <!--

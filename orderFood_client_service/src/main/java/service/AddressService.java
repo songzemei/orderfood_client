@@ -52,8 +52,13 @@ public class AddressService {
         addressDao.add(address);
     }
 
-    //通过id查找地址
+    //通过地址id 查找地址
     public Address findById(String id) {
         return addressDao.findById(id);
+    }
+
+    //通过会员id 查找地址
+    public List<Address> findByMemberId(String memberId) {
+        return addressDao.all(memberId);
     }
 }

@@ -24,6 +24,4 @@ public interface MemberDao {
     //邮箱激活
     @Update("update member set active = '1' where email = #{email}")
     void active(String email);
-
-
 }

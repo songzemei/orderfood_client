@@ -2,6 +2,7 @@ package domain;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -15,10 +16,37 @@ public class Orders {
     private String orderStatusStr;//订单状态字符串
     private String orderDesc;//订单备注
     private String memberId;//订单所属的会员id
-    private List<Car> cars;
+    private Member member;//订单所属的会员
+    private String addressId;//订单的配送地址id
+    private Address address;//订单的配送地址
+    private List<Car> cars;//订单的购物车产品
     private int payType;//支付方式
     private String payTypeStr;//支付方式字符串
     private double totalPrice;//订单总金额
+
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
 
     public int getPayType() {
         return payType;
@@ -83,7 +111,8 @@ public class Orders {
     }
 
     public String getOrderTimeStr() {
-        return orderTimeStr;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sdf.format(orderTime);
     }
 
     public void setOrderTimeStr(String orderTimeStr) {
@@ -99,7 +128,7 @@ public class Orders {
     }
 
     public String getOrderStatusStr() {
-        return orderStatus == 1 ? "已完成" : "未完成";
+        return orderStatus == 1 ? "已配送" : "等待配送";
     }
 
     public void setOrderStatusStr(String orderStatusStr) {

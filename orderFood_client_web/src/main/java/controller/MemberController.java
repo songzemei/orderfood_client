@@ -1,25 +1,30 @@
 package controller;
 
 
-import domain.Member;
-import domain.MyException;
-import domain.Result;
+import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import service.AddressService;
 import service.MemberService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/member")
 public class MemberController {
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private AddressService addressService;
 
     //注册
     @RequestMapping("/register")
@@ -48,10 +53,36 @@ public class MemberController {
 
     //上传头像
     @RequestMapping("/upload")
-    public @ResponseBody Result upload(MultipartFile file) throws IOException {
+    public @ResponseBody
+    Result upload(MultipartFile file) throws IOException {
         System.out.println("controller upload");
         Result result = memberService.upload(file);
         return result;
+    }
+
+    //支付信息页面
+    @RequestMapping("/pay_list")
+    public ModelAndView pay_list(double totalPrice) {
+        SecurityContext context = SecurityContextHolder.getContext();// 获取到Security容器
+        User user = (User) context.getAuthentication().getPrincipal();// 获取Security存的User对象
+        String username = user.getUsername();// 获取到访问人
+        Member member = memberService.findByUsername(username);
+        List<Address> addresses = addressService.findByMemberId(member.getId());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.getModelMap().addAttribute("addresses", addresses);
+        modelAndView.getModelMap().addAttribute("totalPrice", totalPrice);
+        modelAndView.setViewName("pay");
+        return modelAndView;
+    }
+
+    //支付
+    @RequestMapping("/pay")
+    public ModelAndView pay(Orders orders, String payCode) {
+        Result result = memberService.pay(orders, payCode);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.getModelMap().addAttribute("result", result);
+        modelAndView.setViewName("after_login_result");
+        return modelAndView;
     }
 
 //    @RequestMapping("/login")

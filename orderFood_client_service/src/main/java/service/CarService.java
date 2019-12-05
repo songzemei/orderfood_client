@@ -48,6 +48,7 @@ public class CarService {
         if (count == null) {
             car.setId(UUID.randomUUID().toString());
             car.setProductCount(1);
+            car.setCarStatus(0);
             carDao.add(car);
         } else {
             car.setProductCount(count + 1);
@@ -88,13 +89,14 @@ public class CarService {
         return totalPrice;
     }
 
-    //清空购物车
-    public void empty() {
-        carDao.empty();
+    //会员和购物车的产品：一对多 ，购物车付款后 根据会员id 更改购物车状态为1：已支付
+    public void updateStatus(String memberId) {
+        carDao.updateStatus(memberId);
     }
 
-    //支付
-    public void pay() {
+//    //清空购物车
+//    public void empty() {
+//        carDao.empty();
+//    }
 
-    }
 }

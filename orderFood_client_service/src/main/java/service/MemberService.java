@@ -3,12 +3,11 @@ package service;
 
 import dao.MemberDao;
 import dao.MemberRoleDao;
-import domain.Member;
-import domain.MyException;
-import domain.Result;
-import domain.Role;
+import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,7 +30,7 @@ import java.util.UUID;
 @Service
 public class MemberService implements UserDetailsService {
     private String contextPath = "";
-//    private String uploadPath = "http://localhost:81/upload/";
+    //    private String uploadPath = "http://localhost:81/upload/";
     @Autowired
     private MemberDao memberDao;
     @Autowired
@@ -40,6 +39,8 @@ public class MemberService implements UserDetailsService {
     private BCryptPasswordEncoder encoder;
     @Autowired
     private MemberRoleDao memberRoleDao;
+    @Autowired
+    private OrdersService ordersService;
 
     //spring-security登录
     @Override
@@ -73,7 +74,7 @@ public class MemberService implements UserDetailsService {
         member.setPassword(encoder.encode(member.getPassword()));
         member.setActive(0);
         member.setBalance(0.0);
-        member.setPaycode(null);
+        member.setPaycode("123");
         member.setStatus(1);
         memberDao.add(member);
         memberRoleDao.addRoleToMember(member.getId());
@@ -110,16 +111,40 @@ public class MemberService implements UserDetailsService {
         return result;
     }
 
+    //上传头像
     public Result upload(MultipartFile file) throws IOException {
         System.out.println("service upload");
         String name = file.getOriginalFilename();
-        name = UUID.randomUUID()+"_"+name;
-        UploadUtil.uploadToImgServer(file,"http://localhost:81/upload/",name);
+        name = UUID.randomUUID() + "_" + name;
+        UploadUtil.uploadToImgServer(file, "http://localhost:81/upload/", name);
         Result result = new Result();
         result.setResult(true);
         result.setMessage(name);
         return result;
     }
+
+    //通过username查询member
+    public Member findByUsername(String username) {
+        return memberDao.findByUsername(username);
+    }
+
+    //支付
+    public Result pay(Orders orders, String payCode) {
+        SecurityContext context = SecurityContextHolder.getContext();// 获取到Security容器
+        User user = (User) context.getAuthentication().getPrincipal();// 获取Security存的User对象
+        String username = user.getUsername();// 获取到访问人
+        Member member = memberDao.findByUsername(username);
+        if (!(member.getPaycode().equals(payCode))) {
+            return new Result(false, "购物车付款失败,支付密码错误...");
+        } else {
+            //交易 事务 用户扣钱 商家加钱
+
+            //生成订单
+            ordersService.add(orders, member.getId());
+            return new Result(true, "购物车付款成功，订单已生成，等待配送员接单...");
+        }
+    }
+
 //    public Result login(User user, String checkCode, String session_checkCode){
 //        Result loginResult = new Result();
 //        if(!session_checkCode.equalsIgnoreCase(checkCode)){

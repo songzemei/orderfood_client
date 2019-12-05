@@ -51,7 +51,12 @@
                     </li>
                     <li id="car-manage">
                         <a href="${pageContext.request.contextPath}/car/all">
-                            <i class="fa fa-circle-o"></i>查看购物车
+                            <i class="fa fa-circle-o"></i>我的购物车
+                        </a>
+                    </li>
+                    <li id="orders-manage">
+                        <a href="${pageContext.request.contextPath}/orders/all">
+                            <i class="fa fa-circle-o"></i>我的订单
                         </a>
                     </li>
                 </ul>
