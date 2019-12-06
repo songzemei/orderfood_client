@@ -23,7 +23,7 @@
     <security:http security="none" pattern="/fonts/**"/>
     <security:http auto-config="true" use-expressions="false">
         <!-- 配置资料连接，表示任意路径都需要ROLE_USER权限 -->
-        <security:intercept-url pattern="/**" access="ROLE_USER"/>
+        <security:intercept-url pattern="/**" access="ROLE_MEMBER,ROLE_RIDER"/>
         <!-- 自定义登陆页面，login-page 自定义登陆页面
                     login-processing-url 表单提交路径
                      username-parameter 表单用户名参数

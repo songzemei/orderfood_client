@@ -61,4 +61,28 @@ public class OrdersService {
         Orders orders = ordersDao.info(member.getId(), ordersId);
         return orders;
     }
+
+    //分页查询所有未配送的订单  即 orderStatus=0
+    public PageInfo<Orders> allUnFinish(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Orders> allOrders = ordersDao.allUnFinish();
+        return new PageInfo<>(allOrders);
+    }
+
+    //根据订单id查找对应的订单
+    public Orders infoById(String ordersId) {
+        Orders orders = ordersDao.infoById(ordersId);
+        return orders;
+    }
+
+    //根据骑手id查询所有订单 分页
+    public PageInfo<Orders> allByRiderId(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        SecurityContext context = SecurityContextHolder.getContext();// 获取到Security容器
+        User user = (User) context.getAuthentication().getPrincipal();// 获取Security存的User对象
+        String username = user.getUsername();// 获取到访问人
+        Member member = memberDao.findByUsername(username);
+        List<Orders> allOrders = ordersDao.allByRiderId(member.getId());
+        return new PageInfo<>(allOrders);
+    }
 }

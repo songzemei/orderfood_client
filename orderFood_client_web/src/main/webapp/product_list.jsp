@@ -302,13 +302,14 @@
 
     function orderByProductPrice() {
         var url = window.location.search;
+        var pageSize = $("#changePageSize").val(); //获取下拉框的值
         var status;
         if (url.indexOf("asc") == -1) {
             status = "asc";
         } else {
             status = "desc";
         }
-        location.href = "${pageContext.request.contextPath}/product/allOrderBy?orderBy=productPrice " + status;
+        location.href = "${pageContext.request.contextPath}/product/allOrderBy?orderBy=productPrice " + status+" &pageSize="+pageSize;
     }
 
     function changePageSize() {

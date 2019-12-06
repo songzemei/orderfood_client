@@ -23,6 +23,15 @@ public class Orders {
     private int payType;//支付方式
     private String payTypeStr;//支付方式字符串
     private double totalPrice;//订单总金额
+    private String riderId;//配送的骑手id
+
+    public String getRiderId() {
+        return riderId;
+    }
+
+    public void setRiderId(String riderId) {
+        this.riderId = riderId;
+    }
 
     public String getAddressId() {
         return addressId;

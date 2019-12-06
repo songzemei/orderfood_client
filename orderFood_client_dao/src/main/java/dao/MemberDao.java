@@ -24,4 +24,12 @@ public interface MemberDao {
     //邮箱激活
     @Update("update member set active = '1' where email = #{email}")
     void active(String email);
+
+    //通过memberid查询member
+    @Select("select * from member where id=#{id}")
+    Member findById(String id);
+
+    //加钱
+    @Update("update member set balance=#{balance} where id=#{id}")
+    void addBalance(Member member);
 }

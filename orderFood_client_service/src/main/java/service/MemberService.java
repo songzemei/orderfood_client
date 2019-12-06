@@ -3,6 +3,7 @@ package service;
 
 import dao.MemberDao;
 import dao.MemberRoleDao;
+import dao.RiderDao;
 import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -41,6 +42,8 @@ public class MemberService implements UserDetailsService {
     private MemberRoleDao memberRoleDao;
     @Autowired
     private OrdersService ordersService;
+    @Autowired
+    private RiderDao riderDao;
 
     //spring-security登录
     @Override
@@ -77,7 +80,7 @@ public class MemberService implements UserDetailsService {
         member.setPaycode("123");
         member.setStatus(1);
         memberDao.add(member);
-        memberRoleDao.addRoleToMember(member.getId());
+        memberRoleDao.addRoleToMember(member.getId());//用户注册时 添加一个ROLE_MEMBER角色
         sendActiveCode(member.getEmail());
         return new Result(true, "用户注册成功！请在15分钟内去邮箱激活用户");
     }
@@ -143,6 +146,58 @@ public class MemberService implements UserDetailsService {
             ordersService.add(orders, member.getId());
             return new Result(true, "购物车付款成功，订单已生成，等待配送员接单...");
         }
+    }
+
+    //用户注册成为骑手
+    public Result rigisterRider(String payCode) {
+        SecurityContext context = SecurityContextHolder.getContext();// 获取到Security容器
+        User user = (User) context.getAuthentication().getPrincipal();// 获取Security存的User对象
+        String username = user.getUsername();// 获取到访问人
+        Member member = memberDao.findByUsername(username);
+        if (!(member.getPaycode().equals(payCode))) {
+            return new Result(false, "支付密码错误...");
+        } else {
+            //需要交200押金和100服装费
+            if (member.getBalance()<300){
+                return new Result(false,"您的账户余额不足交纳押金和服装费，请充值后再试...");
+            }else {
+                //扣钱300
+
+                //给用户添加ROLE_RIDER角色
+                memberRoleDao.rigisterRider(member.getId());
+                //rider表添加一个数据
+                Rider rider = new Rider();
+                rider.setMemberId(member.getId());
+                rider.setWorkStatus(0);
+                rider.setOrderCount(0);
+                riderDao.add(rider);
+                return new Result(true, "注册骑手成功，快去接单吧...");
+            }
+        }
+    }
+
+    //注销用户的骑手身份
+    public Result cancelRider(String payCode) {
+        SecurityContext context = SecurityContextHolder.getContext();// 获取到Security容器
+        User user = (User) context.getAuthentication().getPrincipal();// 获取Security存的User对象
+        String username = user.getUsername();// 获取到访问人
+        Member member = memberDao.findByUsername(username);
+        if (!(member.getPaycode().equals(payCode))) {
+            return new Result(false, "支付密码错误...");
+        }else {
+            //将200押金退给用户 100服装不退
+
+            //把用户的ROLE_RIDER角色删除
+            memberRoleDao.del(member.getId());
+            //把rider表中的用户相关数据也删除
+            riderDao.del(member.getId());
+            return new Result(true,"注销骑手身份成功，200押金已退回到您的账户");
+        }
+    }
+
+    //根据id查询会员
+    public Member findById(String id){
+        return memberDao.findById(id);
     }
 
 //    public Result login(User user, String checkCode, String session_checkCode){

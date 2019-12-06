@@ -9,7 +9,7 @@ public class Rider {
     private String workStatusStr;//工作状态 1：工作中/0：空闲
     private Date orderTime;//接单时间
     private String orderTimeStr;//接单时间字符串
-    private int ordersCount;//接单数量
+    private int orderCount;//接单数量
     private Member member;
 
     public Member getMember() {
@@ -61,11 +61,11 @@ public class Rider {
         this.orderTimeStr = orderTimeStr;
     }
 
-    public int getOrdersCount() {
-        return ordersCount;
+    public int getOrderCount() {
+        return orderCount;
     }
 
-    public void setOrdersCount(int ordersCount) {
-        this.ordersCount = ordersCount;
+    public void setOrderCount(int ordersCount) {
+        this.orderCount = ordersCount;
     }
 }

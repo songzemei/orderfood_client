@@ -85,6 +85,26 @@ public class MemberController {
         return modelAndView;
     }
 
+    //用户注册成为骑手
+    @RequestMapping("/rigisterRider")
+    public ModelAndView rigisterRider(String payCode) {
+        Result result = memberService.rigisterRider(payCode);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.getModelMap().addAttribute("result", result);
+        modelAndView.setViewName("after_login_result");
+        return modelAndView;
+    }
+
+    //注销用户的骑手身份
+    @RequestMapping("/cancelRider")
+    public ModelAndView cancelRider(String payCode) {
+        Result result = memberService.cancelRider(payCode);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.getModelMap().addAttribute("result", result);
+        modelAndView.setViewName("after_login_result");
+        return modelAndView;
+    }
+
 //    @RequestMapping("/login")
 //    public String login(ModelMap map){
 //        String session_checkCode = (String) request.getSession().getAttribute("CHECKCODE_SERVER");

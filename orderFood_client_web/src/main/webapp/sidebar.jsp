@@ -30,9 +30,24 @@
                 <ul class="treeview-menu">
                     <li id="user-setting">
                         <a href="${pageContext.request.contextPath}/address/all">
-                            <i class="fa fa-circle-o"></i>我的地址
+                            <i class="fa fa-circle-o"></i>我的收货地址
                         </a>
                     </li>
+
+                    <li id="rigister-rider-setting">
+                        <a href="${pageContext.request.contextPath}/rigister_rider.jsp">
+                            <i class="fa fa-circle-o"></i>注册成为骑手
+                        </a>
+                    </li>
+
+                    <security:authorize access="hasAnyRole({'ROLE_RIDER'})">
+                    <li id="cancel-rider-setting">
+                        <a href="${pageContext.request.contextPath}/cancel_rider.jsp">
+                            <i class="fa fa-circle-o"></i>注销骑手身份
+                        </a>
+                    </li>
+                    </security:authorize>
+
                 </ul>
             </li>
 
@@ -61,6 +76,30 @@
                     </li>
                 </ul>
             </li>
+
+            <security:authorize access="hasAnyRole({'ROLE_RIDER'})">
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-cube"></i><span>去接单</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/orders/allUnFinish">
+                                <i class="fa fa-circle-o"></i>发现待配送订单
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/orders/allByRiderId">
+                                <i class="fa fa-circle-o"></i>我已配送的订单
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </security:authorize>
+
         </ul>
     </section>
     <!-- /.sidebar -->
