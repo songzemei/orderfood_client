@@ -40,6 +40,12 @@
                         </a>
                     </li>
 
+                    <li id="rigister-rider-setting">
+                        <a href="${pageContext.request.contextPath}/member/balance">
+                            <i class="fa fa-circle-o"></i>充钱
+                        </a>
+                    </li>
+
                     <security:authorize access="hasAnyRole({'ROLE_RIDER'})">
                     <li id="cancel-rider-setting">
                         <a href="${pageContext.request.contextPath}/cancel_rider.jsp">

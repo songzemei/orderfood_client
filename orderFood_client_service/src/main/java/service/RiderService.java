@@ -38,7 +38,7 @@ public class RiderService {
             ordersDao.updateOrdersStatus(ordersId,member.getId());
             //骑手余额+5
             member.setBalance(member.getBalance()+5);
-            memberDao.addBalance(member);
+            memberDao.updateBalance(member);
             //把骑手的状态修改 将workStatus改为1:工作中，新增接单时间,接单数量+1
             rider.setWorkStatus(1);
             rider.setOrderTime(new Date());
@@ -60,10 +60,13 @@ public class RiderService {
         String username = user.getUsername();// 获取到访问人
         Member member = memberDao.findByUsername(username);
         Rider rider = riderDao.findById(member.getId());
+        if (rider!=null){
             if (rider.getOrderTime()!=null){
                 if (rider.getWorkStatus() == 1 && (new Date().getTime() - rider.getOrderTime().getTime()) > 60 * 1000) {
                     riderDao.ordersFinish(rider.getMemberId());
+                }
             }
         }
+
     }
 }

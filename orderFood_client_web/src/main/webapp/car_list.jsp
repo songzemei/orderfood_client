@@ -137,7 +137,7 @@
                                 <c:forEach items="${cars.list}" var="car">
                                     <tr>
                                         <td><input name="ids" type="checkbox" value="${car.id}"></td>
-                                        <td>${car.product.productPhoto}</td>
+                                        <td><img src="http://localhost:81/upload/${car.product.productPhoto}" width="60" height="60"></td>
                                         <td>${car.product.productName}</td>
                                         <td>${car.product.productPrice}</td>
                                         <td>${car.productCount}</td>

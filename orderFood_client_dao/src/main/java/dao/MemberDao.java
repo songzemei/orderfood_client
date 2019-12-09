@@ -18,7 +18,7 @@ public interface MemberDao {
     Member findByUsername(String username);
 
     //注册
-    @Insert("insert into member values(#{id},#{username},#{password},#{email},#{phoneNum},#{active},#{balance},#{paycode},#{headerImg},#{status})")
+    @Insert("insert into member values(#{id},#{username},#{password},#{email},#{phoneNum},#{active},#{balance},#{paycode},#{headerImg},#{status},#{riderStatus})")
     void add(Member member);
 
     //邮箱激活
@@ -31,5 +31,5 @@ public interface MemberDao {
 
     //加钱
     @Update("update member set balance=#{balance} where id=#{id}")
-    void addBalance(Member member);
+    void updateBalance(Member member);
 }

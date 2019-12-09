@@ -79,6 +79,7 @@ public class MemberService implements UserDetailsService {
         member.setBalance(0.0);
         member.setPaycode("123");
         member.setStatus(1);
+        member.setRiderStatus(0);
         memberDao.add(member);
         memberRoleDao.addRoleToMember(member.getId());//用户注册时 添加一个ROLE_MEMBER角色
         sendActiveCode(member.getEmail());
@@ -141,10 +142,27 @@ public class MemberService implements UserDetailsService {
             return new Result(false, "购物车付款失败,支付密码错误...");
         } else {
             //交易 事务 用户扣钱 商家加钱
-
-            //生成订单
-            ordersService.add(orders, member.getId());
-            return new Result(true, "购物车付款成功，订单已生成，等待配送员接单...");
+            if (member.getRiderStatus()==0){
+                if (member.getBalance()>orders.getTotalPrice()){
+                    member.setBalance(member.getBalance()-orders.getTotalPrice());
+                    memberDao.updateBalance(member);
+                    //生成订单
+                    ordersService.add(orders, member.getId());
+                    return new Result(true, "购物车付款成功，订单已生成，等待配送员接单...");
+                }else {
+                    return new Result(true, "购物车付款失败，账户余额不足...");
+                }
+            }else {
+                if (member.getBalance()>orders.getTotalPrice()){
+                    member.setBalance(member.getBalance()-orders.getTotalPrice()*0.8);
+                    memberDao.updateBalance(member);
+                    //生成订单
+                    ordersService.add(orders, member.getId());
+                    return new Result(true, "购物车付款成功，订单已生成，等待配送员接单...(因为你是本公司骑手，本次订餐享受8折优惠)");
+                }else {
+                    return new Result(true, "购物车付款失败，账户余额不足...");
+                }
+            }
         }
     }
 
@@ -198,6 +216,26 @@ public class MemberService implements UserDetailsService {
     //根据id查询会员
     public Member findById(String id){
         return memberDao.findById(id);
+    }
+
+    //充钱
+    public Result chongqian(double balance) {
+        SecurityContext context = SecurityContextHolder.getContext();// 获取到Security容器
+        User user = (User) context.getAuthentication().getPrincipal();// 获取Security存的User对象
+        String username = user.getUsername();// 获取到访问人
+        Member member = memberDao.findByUsername(username);
+        member.setBalance(member.getBalance()+balance);
+        memberDao.updateBalance(member);
+        return new Result(true,"充钱成功！");
+    }
+
+    //查询账户余额
+    public double balance() {
+        SecurityContext context = SecurityContextHolder.getContext();// 获取到Security容器
+        User user = (User) context.getAuthentication().getPrincipal();// 获取Security存的User对象
+        String username = user.getUsername();// 获取到访问人
+        Member member = memberDao.findByUsername(username);
+       return member.getBalance();
     }
 
 //    public Result login(User user, String checkCode, String session_checkCode){

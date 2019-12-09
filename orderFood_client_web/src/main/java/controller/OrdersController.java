@@ -79,7 +79,7 @@ public class OrdersController {
         Rider rider = riderService.findById(member.getId());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.getModelMap().addAttribute("allOrders", allOrders);
-        modelAndView.getModelMap().addAttribute("orderCount", rider.getOrderCount());
+        modelAndView.getModelMap().addAttribute("orderCount", rider==null?0:rider.getOrderCount());
         modelAndView.setViewName("orders_list_finish");
         return modelAndView;
     }

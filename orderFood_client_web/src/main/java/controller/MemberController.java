@@ -55,7 +55,6 @@ public class MemberController {
     @RequestMapping("/upload")
     public @ResponseBody
     Result upload(MultipartFile file) throws IOException {
-        System.out.println("controller upload");
         Result result = memberService.upload(file);
         return result;
     }
@@ -102,6 +101,26 @@ public class MemberController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.getModelMap().addAttribute("result", result);
         modelAndView.setViewName("after_login_result");
+        return modelAndView;
+    }
+
+    //充钱
+    @RequestMapping("/chongqian")
+    public ModelAndView chongqian(double balance) {
+        Result result = memberService.chongqian(balance);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.getModelMap().addAttribute("result", result);
+        modelAndView.setViewName("after_login_result");
+        return modelAndView;
+    }
+
+    //查询账户余额
+    @RequestMapping("/balance")
+    public ModelAndView balance() {
+        double balance = memberService.balance();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.getModelMap().addAttribute("balance", balance);
+        modelAndView.setViewName("chongqian");
         return modelAndView;
     }
 

@@ -18,6 +18,24 @@ public class Member {
     private List<Role> roles;//会员角色
     private List<Orders> orders;
     private List<Address> addresses;
+    private int riderStatus;//是否为骑手
+    private String riderStatusStr;//是否为骑手字符串 1/0
+
+    public int getRiderStatus() {
+        return riderStatus;
+    }
+
+    public void setRiderStatus(int riderStatus) {
+        this.riderStatus = riderStatus;
+    }
+
+    public String getRiderStatusStr() {
+        return riderStatus==1?"是":"否";
+    }
+
+    public void setRiderStatusStr(String riderStatusStr) {
+        this.riderStatusStr = riderStatusStr;
+    }
 
     public List<Address> getAddresses() {
         return addresses;
